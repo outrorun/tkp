@@ -1,0 +1,47 @@
+﻿@page "/todolist"
+
+@using BlazorApp.Data
+@inject TodolistService TodoService
+
+<h1>To-do List</h1>
+
+<input class="inpt input-group-text">
+<br>
+<button class="btn btn-primary">Click me</button>
+
+@if (Todos == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Задание</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var Todo in Todos)
+            {
+                <tr>
+                    <td><input type="checkbox" @bind="@Todo.IsChecked" ></td>
+                    <td>@Todo.ElementText</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        Todos = await TodoService.GetTodoListsAsync();
+    }
+
+    public void createTodo()
+    {
+        Todos.Add(new TodoList());
+    }
+}
