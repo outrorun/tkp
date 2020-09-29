@@ -6,7 +6,6 @@
 <h1>To-do List</h1>
 
 <input class="inpt input-group-text">
-<br>
 <button class="btn btn-primary">Click me</button>
 
 @if (Todos == null)
@@ -35,13 +34,9 @@ else
 }
 
 @code {
+    private TodoList[] Todos;
     protected override async Task OnInitializedAsync()
     {
         Todos = await TodoService.GetTodoListsAsync();
-    }
-
-    public void createTodo()
-    {
-        Todos.Add(new TodoList());
     }
 }
