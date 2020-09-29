@@ -5,9 +5,10 @@
 
 <h1>To-do List</h1>
 
-<input class="inpt input-group-text">
-<button class="btn btn-primary">Click me</button>
-
+<input class="inpt input-group-text" @bind ="@TodoText">
+<br>
+<button class="btn btn-primary" @onclick="onclick">Добавить</button>
+<br>
 @if (Todos == null)
 {
     <p><em>Loading...</em></p>
@@ -34,9 +35,25 @@ else
 }
 
 @code {
-    private TodoList[] Todos;
+    private string TodoText;
+
+    private List<TodoList> Todos;
+
     protected override async Task OnInitializedAsync()
     {
-        Todos = await TodoService.GetTodoListsAsync();
+        TodoList[] T;
+        T = await TodoService.GetTodoListsAsync();
+        Todos = T.ToList<TodoList>();
     }
+
+    public void onclick()
+    {
+        Todos.Add(new TodoList()
+        {
+            IsChecked = false,
+            ElementText = TodoText
+        });
+        TodoText = "";
+    }
+
 }
